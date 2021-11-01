@@ -152,9 +152,9 @@ func parseCertificatesDer(der []byte) (*Certificate, error) {
 	var certs []*x509.Certificate
 	var err error
 	if bytes.Contains(der[:32], pkcs7SignedData) {
-		psd, err := pkcs7.Unmarshal(der)
-		if err != nil {
-			return nil, err
+		psd, unmarshalErr := pkcs7.Unmarshal(der)
+		if unmarshalErr != nil {
+			return nil, unmarshalErr
 		}
 		certs, err = psd.Content.Certificates.Parse()
 	} else {

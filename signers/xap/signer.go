@@ -57,6 +57,9 @@ func sign(r io.Reader, cert *certloader.Certificate, opts signers.SignOpts) ([]b
 
 func verify(f *os.File, opts signers.VerifyOpts) ([]*signers.Signature, error) {
 	size, err := f.Seek(0, io.SeekEnd)
+	if err != nil {
+		return nil, err
+	}
 	sig, err := signxap.Verify(f, size, opts.NoDigests)
 	if err != nil {
 		return nil, err
